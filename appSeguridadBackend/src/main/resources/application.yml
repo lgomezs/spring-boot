@@ -1,0 +1,62 @@
+server:
+  port: ${vcap.application.port:8200}
+---
+
+frontend:
+  server: localhost
+  port: 4200
+
+spring:
+  profiles: default
+
+  security.ldap:
+    active: false
+    url: ldap://192.168.0.4:389
+    authentication: simple
+    baseDN: OU=Transolutions,DC=tss,DC=com,DC=pe
+    admin: gitlab@tss.com.pe
+    password: password
+    
+  production:
+    active: false
+    
+  security.jwt:
+    tokenExpirationTime: 240 # Number of minutes
+    refreshTokenExpTime: 1440 # Minutes
+    tokenIssuer: http://gmd.com.pe
+    tokenSigningKey: xm8EV6Hy5RMFK4EEACIDAwQus  
+  
+  urlpasswordreset:
+    ipfrontend: http://localhost:4200/reset/validatePassword
+  
+  mail:
+    sender: RunakunaSVCAccount@tss.com.pe
+    fromIP: 192.168.1.45
+    host: 192.168.0.10
+    username: RunakunaSVCAccount@tss.com.pe
+    password: H4ZG9:iQ
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: false
+          starttls.enable: false
+
+  dataSource:
+    driverClassName: oracle.jdbc.OracleDriver
+    url: jdbc:oracle:thin:@localhost:1521:XE
+    username: SEGURIDADSYS
+    password: SEGURIDADSYS
+
+  
+  jpa:
+    database-platform: org.hibernate.dialect.Oracle10gDialect    
+    show-sql: true
+    #generate-ddl= true.hibernate.ejb.interceptor=MyInterceptorClassName
+
+    hibernate:
+      ddl-auto: none
+      naming-strategy: org.hibernate.cfg.DefaultNamingStrategy
+               
+multipart.maxFileSize: 20MB
+multipart.maxRequestSize: 20MB 
